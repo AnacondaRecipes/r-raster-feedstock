@@ -14,33 +14,47 @@ source:
     - https://cran.r-project.org/src/contrib/Archive/raster/raster_{{ version }}.tar.gz
   sha256: 47992abd783450513fbce3770298cc257030bf0eb77e42aa3a4b3924b16264cc
 
-build:
-  number: 0
-  skip: true  # [win32]
 
+  # patches:
+   # List any patch files here
+   # - fix.patch
+
+build:
+  # If this is a new build for the same version, increment the build number.
+  number: 0
+
+  # This is required to make R link correctly on Linux.
   rpaths:
     - lib/R/lib/
     - lib/
 
+# Suggests: rgdal (>= 0.9-1), rgeos (>= 0.3-8), ncdf4, igraph, tcltk, parallel, rasterVis
 requirements:
   build:
     - r-base
+    - {{ compiler('c') }}        # [not win]
+    - {{ compiler('cxx') }}      # [not win]
+    - {{native}}toolchain        # [win]
     - r-rcpp
     - r-sp >=1.2_0
-    - posix                # [win]
-    - {{native}}toolchain  # [win]
-    - gcc                  # [not win]
 
   run:
     - r-base
+    - {{native}}gcc-libs         # [win]
     - r-rcpp
     - r-sp >=1.2_0
-    - libgcc  # [not win]
 
 test:
   commands:
-    - $R -e "library('raster')"  # [not win]
+    # You can put additional test commands to be run here.
+    - $R -e "library('raster')"           # [not win]
     - "\"%R%\" -e \"library('raster')\""  # [win]
+
+  # You can also put a file called run_test.py, run_test.sh, or run_test.bat
+  # in the recipe that will be run at test time.
+
+  # requires:
+    # Put any additional test requirements here.
 
 about:
   home: http://cran.r-project.org/package=raster
@@ -54,3 +68,31 @@ extra:
   recipe-maintainers:
     - johanneskoester
     - bgruening
+    - mingwandroid
+
+# The original CRAN metadata for this package was:
+
+# Package: raster
+# Type: Package
+# Title: Geographic Data Analysis and Modeling
+# Version: 2.5-8
+# Date: 2016-05-31
+# Depends: methods, sp (>= 1.2-0), R (>= 3.0.0)
+# Suggests: rgdal (>= 0.9-1), rgeos (>= 0.3-8), ncdf4, igraph, tcltk, parallel, rasterVis
+# LinkingTo: Rcpp
+# Imports: Rcpp
+# Authors@R: c( person("Robert J.", "Hijmans", role = c("cre", "aut"),  email = "r.hijmans@gmail.com"), person("Jacob", "van Etten", role = "ctb"), person("Joe", "Cheng", role = "ctb"), person("Matteo", "Mattiuzzi", role = "ctb"), person("Michael", "Sumner", role = "ctb"), person("Jonathan A.", "Greenberg", role = "ctb"), person("Oscar", "Perpinan Lamigueiro", role = "ctb"), person("Andrew", "Bevan", role = "ctb"), person("Etienne B.", "Racine", role = "ctb"), person("Ashton", "Shortridge", role = "ctb"))
+# Description: Reading, writing, manipulating, analyzing and modeling of gridded spatial data. The package implements basic and high-level functions. Processing of very large files is supported.
+# License: GPL (>= 3)
+# URL: http://cran.r-project.org/package=raster
+# ByteCompile: TRUE
+# NeedsCompilation: yes
+# Packaged: 2016-05-31 23:09:23 UTC; rhijmans
+# Author: Robert J. Hijmans [cre, aut], Jacob van Etten [ctb], Joe Cheng [ctb], Matteo Mattiuzzi [ctb], Michael Sumner [ctb], Jonathan A. Greenberg [ctb], Oscar Perpinan Lamigueiro [ctb], Andrew Bevan [ctb], Etienne B. Racine [ctb], Ashton Shortridge [ctb]
+# Maintainer: Robert J. Hijmans <r.hijmans@gmail.com>
+# Repository: CRAN
+# Date/Publication: 2016-06-02 18:31:24
+
+# See
+# http://docs.continuum.io/conda/build.html for
+# more information about meta.yaml
