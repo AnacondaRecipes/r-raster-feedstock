@@ -10,8 +10,8 @@ package:
 source:
   fn: raster_{{ version }}.tar.gz
   url:
-    - https://cran.r-project.org/src/contrib/raster_{{ version }}.tar.gz
-    - https://cran.r-project.org/src/contrib/Archive/raster/raster_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/raster_{{ version }}.tar.gz
+    - {{ cran_mirror }}/src/contrib/Archive/raster/raster_{{ version }}.tar.gz
   sha256: fb91804fd465a4a6d9d9858e29fd05f41a99b8efdcc5cf4370ea253b68e42b01
 
 
