@@ -14,16 +14,10 @@ source:
     - {{ cran_mirror }}/src/contrib/Archive/raster/raster_{{ version }}.tar.gz
   sha256: fb91804fd465a4a6d9d9858e29fd05f41a99b8efdcc5cf4370ea253b68e42b01
 
-
-  # patches:
-   # List any patch files here
-   # - fix.patch
-
 build:
   merge_build_host: True  # [win]
   # If this is a new build for the same version, increment the build number.
   number: 0
-
 
   # This is required to make R link correctly on Linux.
   rpaths:
